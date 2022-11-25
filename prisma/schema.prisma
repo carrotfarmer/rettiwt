@@ -55,6 +55,8 @@ model User {
   image         String?
   accounts      Account[]
   sessions      Session[]
+  tweets        Tweet[]   @relation("author")
+  likedTweets   Tweet[]
 }
 
 model VerificationToken {
@@ -63,4 +65,15 @@ model VerificationToken {
   expires    DateTime
 
   @@unique([identifier, token])
+}
+
+model Tweet {
+  id        String   @id @default(uuid())
+  message   String
+  likes     Int
+  authorId  String
+  author    User     @relation("author", fields: [authorId], references: [id])
+  likedBy   User[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }

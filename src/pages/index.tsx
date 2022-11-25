@@ -1,14 +1,15 @@
 import { type NextPage } from "next";
 import Head from "next/head";
 import Link from "next/link";
-import { signIn, signOut, useSession } from "next-auth/react";
+import { signIn, useSession } from "next-auth/react";
 
-import { Button } from "@chakra-ui/react";
+import { Box, Button, Center, Heading } from "@chakra-ui/react";
 
 import { trpc } from "../utils/trpc";
 
+import { Home as HomeComponent } from "../components/Home";
+
 const Home: NextPage = () => {
-  const hello = trpc.example.hello.useQuery({ text: "from tRPC" });
   const { data: sessionData } = useSession();
 
   return (
@@ -19,15 +20,28 @@ const Home: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main>
-        hey
-        <div>
-          <Button
-            onClick={sessionData ? () => signOut() : () => signIn()}
-            colorScheme="twitter"
-          >
-            {sessionData ? "sign out" : "sign in"}
-          </Button>
-        </div>
+        <Center>
+          <Heading as="h1" size="2xl" pt="5">
+            rettiwt
+          </Heading>
+        </Center>
+        <Box>
+          {sessionData ? (
+            <HomeComponent />
+          ) : (
+            <Box>
+              <Center>
+                <Button
+                  colorScheme="twitter"
+                  width="xl"
+                  onClick={() => signIn()}
+                >
+                  sign in
+                </Button>
+              </Center>
+            </Box>
+          )}
+        </Box>
       </main>
     </>
   );
