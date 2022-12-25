@@ -1,16 +1,13 @@
 import { type NextPage } from "next";
 import Head from "next/head";
-import Link from "next/link";
 import { signIn, useSession } from "next-auth/react";
 
 import { Box, Button, Center, Heading } from "@chakra-ui/react";
 
-import { trpc } from "../utils/trpc";
-
-import { Home as HomeComponent } from "../components/Home";
+import { Feed } from "../components/Feed";
 
 const Home: NextPage = () => {
-  const { data: sessionData } = useSession();
+  const { data: sessionData, status } = useSession();
 
   return (
     <>
@@ -27,7 +24,7 @@ const Home: NextPage = () => {
         </Center>
         <Box>
           {sessionData ? (
-            <HomeComponent />
+            <Feed />
           ) : (
             <Box>
               <Center>

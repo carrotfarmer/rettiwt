@@ -1,5 +1,6 @@
 import { protectedProcedure, router } from "../trpc";
 import z from "zod";
+import type { Tweet } from "@prisma/client";
 
 export const tweetRouter = router({
   createTweet: protectedProcedure
@@ -9,6 +10,12 @@ export const tweetRouter = router({
       })
     )
     .mutation(async ({ ctx, input }) => {
+      const newTweet = {
+        message: input.msg,
+        likes: 0,
+      } as Tweet;
+
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       const tweet = await ctx.prisma.user.update({
         where: {
           id: ctx.session.user.id,
@@ -16,24 +23,13 @@ export const tweetRouter = router({
         data: {
           tweets: {
             create: {
-              message: input.msg,
-              likes: 0,
-            },
-          },
-        },
-        select: {
-          tweets: {
-            select: {
-              id: true,
-              message: true,
-              createdAt: true,
-              updatedAt: true,
+              ...newTweet,
             },
           },
         },
       });
 
-      return tweet;
+      return newTweet;
     }),
 
   likeTweet: protectedProcedure
@@ -59,4 +55,16 @@ export const tweetRouter = router({
         },
       });
     }),
+
+  getTweets: protectedProcedure.query(async ({ ctx }) => {
+    return await ctx.prisma.tweet.findMany({
+      // return newest tweets first
+      orderBy: {
+        createdAt: "desc",
+      },
+      include: {
+        likedBy: true,
+      },
+    });
+  }),
 });
