@@ -35,7 +35,7 @@ export const Feed = () => {
         </Center>
       </Box>
       {tweetsData &&
-        tweets.map((tweet) => <div key={tweet.authorId}>{tweet.message}</div>)}
+        tweets.map((tweet) => <div key={tweet.id}>{tweet.message}</div>)}
     </div>
   );
 };
