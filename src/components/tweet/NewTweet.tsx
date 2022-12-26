@@ -12,12 +12,18 @@ import {
   Textarea,
   useDisclosure,
 } from "@chakra-ui/react";
-import type { Tweet } from "@prisma/client";
+import type { Tweet, User } from "@prisma/client";
 import React from "react";
 import { trpc } from "../../utils/trpc";
 
 interface NewTweetProps {
-  setTweets: React.Dispatch<React.SetStateAction<Tweet[]>>;
+  setTweets: React.Dispatch<
+    React.SetStateAction<
+      (Tweet & {
+        author: User;
+      })[]
+    >
+  >;
 }
 
 export const NewTweet: React.FC<NewTweetProps> = ({ setTweets }) => {
@@ -63,6 +69,7 @@ export const NewTweet: React.FC<NewTweetProps> = ({ setTweets }) => {
                 colorScheme="twitter"
                 onClick={() => {
                   addTweet({ msg: message });
+                  onClose();
                 }}
               >
                 post tweet

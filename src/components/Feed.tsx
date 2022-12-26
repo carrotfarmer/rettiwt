@@ -1,5 +1,5 @@
 import { Box, Button, Center, Spinner, VStack } from "@chakra-ui/react";
-import type { Tweet as ITweet } from "@prisma/client";
+import type { Tweet as ITweet, User } from "@prisma/client";
 import { signOut } from "next-auth/react";
 import React from "react";
 import { trpc } from "../utils/trpc";
@@ -7,7 +7,11 @@ import { NewTweet } from "./tweet/NewTweet";
 import { Tweet } from "./tweet/Tweet";
 
 export const Feed = () => {
-  const [tweets, setTweets] = React.useState<ITweet[]>([]);
+  const [tweets, setTweets] = React.useState<
+    (ITweet & {
+      author: User;
+    })[]
+  >([]);
 
   const {
     data: tweetsData,
@@ -39,7 +43,9 @@ export const Feed = () => {
         <Center>
           <VStack>
             {tweetsData &&
-              tweets.map((tweet) => <Tweet tweet={tweet} key={tweet.id} />)}
+              tweets.map((tweet) => (
+                <Tweet tweet={tweet} key={tweet.id} author={tweet.author} />
+              ))}
           </VStack>
         </Center>
       </Box>

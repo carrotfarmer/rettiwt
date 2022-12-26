@@ -15,21 +15,15 @@ export const tweetRouter = router({
         likes: 0,
       } as Tweet;
 
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      const tweet = await ctx.prisma.user.update({
-        where: {
-          id: ctx.session.user.id,
-        },
+      return await ctx.prisma.tweet.create({
         data: {
-          tweets: {
-            create: {
-              ...newTweet,
-            },
-          },
+          ...newTweet,
+          authorId: ctx.session.user.id,
+        },
+        include: {
+          author: true,
         },
       });
-
-      return newTweet;
     }),
 
   likeTweet: protectedProcedure
@@ -64,6 +58,7 @@ export const tweetRouter = router({
       },
       include: {
         likedBy: true,
+        author: true,
       },
     });
   }),
