@@ -2,9 +2,10 @@ import { type NextPage } from "next";
 import Head from "next/head";
 import { signIn, useSession } from "next-auth/react";
 
-import { Box, Button, Center, Heading } from "@chakra-ui/react";
+import { Box, Button, Center, Heading, Text } from "@chakra-ui/react";
 
 import { Feed } from "../components/Feed";
+import { Navbar } from "../components/Navbar";
 
 const Home: NextPage = () => {
   const { data: sessionData, status } = useSession();
@@ -17,22 +18,17 @@ const Home: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main>
-        <Center>
-          <Heading as="h1" size="2xl" pt="5">
-            rettiwt
-          </Heading>
-        </Center>
+        <Navbar />
         <Box>
           {sessionData ? (
             <Feed />
           ) : (
-            <Box>
+            <Box pt="50">
               <Center>
-                <Button
-                  colorScheme="twitter"
-                  width="xl"
-                  onClick={() => signIn()}
-                >
+                <Text>Yo! Sign in with GitHub to continue:</Text>
+              </Center>
+              <Center pt="3">
+                <Button colorScheme="twitter" onClick={() => signIn()}>
                   sign in
                 </Button>
               </Center>

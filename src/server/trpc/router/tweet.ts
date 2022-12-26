@@ -47,6 +47,10 @@ export const tweetRouter = router({
             },
           },
         },
+        include: {
+          likedBy: true,
+          author: true,
+        },
       });
     }),
 
