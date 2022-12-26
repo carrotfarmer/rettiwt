@@ -1,5 +1,5 @@
-import React, { useEffect } from "react";
-import { Tweet as ITweet, User } from "@prisma/client";
+import React from "react";
+import type { Tweet as ITweet, User } from "@prisma/client";
 import { Box, Spinner } from "@chakra-ui/react";
 import { trpc } from "../../utils/trpc";
 
