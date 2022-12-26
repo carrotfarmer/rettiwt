@@ -21,6 +21,7 @@ interface NewTweetProps {
     React.SetStateAction<
       (Tweet & {
         author: User;
+        likedBy: User[];
       })[]
     >
   >;

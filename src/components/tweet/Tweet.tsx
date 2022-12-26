@@ -1,24 +1,41 @@
 import React from "react";
 import type { Tweet as ITweet, User as IUser } from "@prisma/client";
 import { Box, HStack, Icon, Text, Avatar } from "@chakra-ui/react";
-import { FcLike } from "react-icons/fc";
+import { BsHeart } from "react-icons/bs";
 import { motion } from "framer-motion";
 import { trpc } from "../../utils/trpc";
 
 interface TweetProps {
   tweet: ITweet;
   author: IUser;
+  likedBy: IUser[];
   setTweets: React.Dispatch<
     React.SetStateAction<
       (ITweet & {
         author: IUser;
+        likedBy: IUser[];
       })[]
     >
   >;
 }
 
-export const Tweet: React.FC<TweetProps> = ({ tweet, author, setTweets }) => {
+export const Tweet: React.FC<TweetProps> = ({
+  tweet,
+  author,
+  likedBy,
+  setTweets,
+}) => {
   const { mutate: likeTweet } = trpc.tweet.likeTweet.useMutation({
+    onSuccess: (data) => {
+      setTweets((prev) => {
+        const index = prev.findIndex((t) => t.id === data.id);
+        prev[index] = data;
+        return [...prev];
+      });
+    },
+  });
+
+  const { mutate: dislikeTweet } = trpc.tweet.dislikeTweet.useMutation({
     onSuccess: (data) => {
       setTweets((prev) => {
         const index = prev.findIndex((t) => t.id === data.id);
@@ -62,18 +79,17 @@ export const Tweet: React.FC<TweetProps> = ({ tweet, author, setTweets }) => {
         <Box pt="10">
           {/* display like button with like count */}
           <motion.div whileHover={{ scale: 1.01 }} whileTap={{ scaleY: 0.9 }}>
-            <button
-              onClick={() =>
-                likeTweet({
-                  tweetId: tweet.id,
-                })
-              }
-            >
-              <HStack>
-                <Icon as={FcLike} color="gray.400" w={6} h={6} />
-                <Text color="gray.400">{tweet.likes}</Text>
+            {likedBy.find((user) => user.id === author.id) ? (
+              <HStack onClick={() => dislikeTweet({ tweetId: tweet.id })}>
+                <Icon as={BsHeart} color="red.400" />
+                <Text color="red.400">{likedBy.length}</Text>
               </HStack>
-            </button>
+            ) : (
+              <HStack onClick={() => likeTweet({ tweetId: tweet.id })}>
+                <Icon as={BsHeart} borderColor="red.400" />
+                <Text>{likedBy.length}</Text>
+              </HStack>
+            )}
           </motion.div>
         </Box>
       </Box>

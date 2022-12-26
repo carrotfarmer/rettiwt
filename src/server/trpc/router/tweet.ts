@@ -22,6 +22,7 @@ export const tweetRouter = router({
         },
         include: {
           author: true,
+          likedBy: true,
         },
       });
     }),
@@ -43,6 +44,34 @@ export const tweetRouter = router({
           },
           likedBy: {
             connect: {
+              id: ctx.session.user.id,
+            },
+          },
+        },
+        include: {
+          likedBy: true,
+          author: true,
+        },
+      });
+    }),
+
+  dislikeTweet: protectedProcedure
+    .input(
+      z.object({
+        tweetId: z.string(),
+      })
+    )
+    .mutation(({ ctx, input }) => {
+      return ctx.prisma.tweet.update({
+        where: {
+          id: input.tweetId,
+        },
+        data: {
+          likes: {
+            decrement: 1,
+          },
+          likedBy: {
+            disconnect: {
               id: ctx.session.user.id,
             },
           },

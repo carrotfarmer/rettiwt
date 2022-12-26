@@ -9,6 +9,7 @@ export const Feed = () => {
   const [tweets, setTweets] = React.useState<
     (ITweet & {
       author: User;
+      likedBy: User[];
     })[]
   >([]);
 
@@ -43,6 +44,7 @@ export const Feed = () => {
                   key={tweet.id}
                   author={tweet.author}
                   setTweets={setTweets}
+                  likedBy={tweet.likedBy}
                 />
               ))}
           </VStack>
