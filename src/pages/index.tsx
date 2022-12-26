@@ -2,13 +2,13 @@ import { type NextPage } from "next";
 import Head from "next/head";
 import { signIn, useSession } from "next-auth/react";
 
-import { Box, Button, Center, Heading, Text } from "@chakra-ui/react";
+import { Box, Button, Center, Text } from "@chakra-ui/react";
 
 import { Feed } from "../components/Feed";
 import { Navbar } from "../components/Navbar";
 
 const Home: NextPage = () => {
-  const { data: sessionData, status } = useSession();
+  const { data: sessionData } = useSession();
 
   return (
     <>
