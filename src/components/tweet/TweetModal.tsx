@@ -21,7 +21,6 @@ interface TweetModalProps {
   onOpen: () => void;
   onClose: () => void;
   tweet: ITweet;
-  // author: IUser;
   likedBy: IUser[];
   setTweets: React.Dispatch<
     React.SetStateAction<

@@ -8,7 +8,7 @@ import {
   Avatar,
   useDisclosure,
 } from "@chakra-ui/react";
-import { BsHeart } from "react-icons/bs";
+import { BsHeart, BsTrash } from "react-icons/bs";
 import { motion } from "framer-motion";
 import { trpc } from "../../utils/trpc";
 import { useSession } from "next-auth/react";
@@ -50,6 +50,14 @@ export const Tweet: React.FC<TweetProps> = ({
         const index = prev.findIndex((t) => t.id === data.id);
         prev[index] = data;
         return [...prev];
+      });
+    },
+  });
+
+  const { mutate: deleteTweet } = trpc.tweet.deleteTweet.useMutation({
+    onSuccess: (data) => {
+      setTweets((prev) => {
+        return prev.filter((item) => item.id === tweet.id);
       });
     },
   });
@@ -102,23 +110,37 @@ export const Tweet: React.FC<TweetProps> = ({
         </Box>
       </Box>
       <Box pt="10">
-        <Box boxSize="3xs">
-          <motion.div whileHover={{ scale: 1.01 }} whileTap={{ scaleY: 0.9 }}>
-            <Box cursor="pointer">
-              {likedBy.find((user) => user.id === session?.user?.id) ? (
-                <HStack onClick={() => dislikeTweet({ tweetId: tweet.id })}>
-                  <Icon as={BsHeart} color="red.400" />
-                  <Text color="red.400">{likedBy.length}</Text>
-                </HStack>
-              ) : (
-                <HStack onClick={() => likeTweet({ tweetId: tweet.id })}>
-                  <Icon as={BsHeart} borderColor="red.400" />
-                  <Text>{likedBy.length}</Text>
-                </HStack>
-              )}
-            </Box>
-          </motion.div>
-        </Box>
+        <HStack spacing="2">
+          <Box boxSize="3xs">
+            <motion.div whileHover={{ scale: 1.01 }} whileTap={{ scaleY: 0.9 }}>
+              <Box cursor="pointer">
+                {likedBy.find((user) => user.id === session?.user?.id) ? (
+                  <HStack onClick={() => dislikeTweet({ tweetId: tweet.id })}>
+                    <Icon as={BsHeart} color="red.400" />
+                    <Text color="red.400">{likedBy.length}</Text>
+                  </HStack>
+                ) : (
+                  <HStack onClick={() => likeTweet({ tweetId: tweet.id })}>
+                    <Icon as={BsHeart} borderColor="red.400" />
+                    <Text>{likedBy.length}</Text>
+                  </HStack>
+                )}
+              </Box>
+            </motion.div>
+          </Box>
+          <Box boxSize="3xs">
+            <motion.div whileHover={{ scale: 1.01 }} whileTap={{ scaleY: 0.9 }}>
+              <Box cursor="pointer">
+                {author.id === session?.user?.id && (
+                  <HStack onClick={() => deleteTweet({ tweetId: tweet.id })}>
+                    <Icon as={BsTrash} color="red.400" />
+                    <Text color="red.400">Delete</Text>
+                  </HStack>
+                )}
+              </Box>
+            </motion.div>
+          </Box>
+        </HStack>
       </Box>
     </Box>
   );

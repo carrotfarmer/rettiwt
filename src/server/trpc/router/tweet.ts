@@ -95,4 +95,18 @@ export const tweetRouter = router({
       },
     });
   }),
+
+  deleteTweet: protectedProcedure
+    .input(
+      z.object({
+        tweetId: z.string(),
+      })
+    )
+    .mutation(async ({ input, ctx }) => {
+      return await ctx.prisma.tweet.delete({
+        where: {
+          id: input.tweetId,
+        },
+      });
+    }),
 });
