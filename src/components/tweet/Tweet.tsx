@@ -76,8 +76,7 @@ export const Tweet: React.FC<TweetProps> = ({
         <Box pt="2.5">
           <Text>{tweet.message}</Text>
         </Box>
-        <Box pt="10">
-          {/* display like button with like count */}
+        <Box pt="10" cursor="pointer">
           <motion.div whileHover={{ scale: 1.01 }} whileTap={{ scaleY: 0.9 }}>
             {likedBy.find((user) => user.id === author.id) ? (
               <HStack onClick={() => dislikeTweet({ tweetId: tweet.id })}>
