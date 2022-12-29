@@ -57,7 +57,7 @@ export const Tweet: React.FC<TweetProps> = ({
   const { mutate: deleteTweet } = trpc.tweet.deleteTweet.useMutation({
     onSuccess: (data) => {
       setTweets((prev) => {
-        return prev.filter((item) => item.id === tweet.id);
+        return [...prev.filter((t) => t.id !== data.id)];
       });
     },
   });
@@ -110,7 +110,7 @@ export const Tweet: React.FC<TweetProps> = ({
         </Box>
       </Box>
       <Box pt="10">
-        <HStack spacing="2">
+        <HStack spacing="-44">
           <Box boxSize="3xs">
             <motion.div whileHover={{ scale: 1.01 }} whileTap={{ scaleY: 0.9 }}>
               <Box cursor="pointer">
