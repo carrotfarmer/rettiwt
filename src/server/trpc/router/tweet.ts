@@ -109,4 +109,22 @@ export const tweetRouter = router({
         },
       });
     }),
+
+  getUserTweets: protectedProcedure
+    .input(
+      z.object({
+        userId: z.string(),
+      })
+    )
+    .query(async ({ input, ctx }) => {
+      return await ctx.prisma.tweet.findMany({
+        where: {
+          authorId: input.userId,
+        },
+        include: {
+          likedBy: true,
+          author: true,
+        },
+      });
+    }),
 });

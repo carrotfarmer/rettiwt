@@ -5,7 +5,7 @@ import { signIn, useSession } from "next-auth/react";
 import { Box, Button, Center, Text } from "@chakra-ui/react";
 
 import { Feed } from "../components/Feed";
-import { Navbar } from "../components/Navbar";
+import { Navbar } from "../components/nav/Navbar";
 
 const Home: NextPage = () => {
   const { data: sessionData } = useSession();
