@@ -39,26 +39,28 @@ export const Navbar = () => {
             </Button>
           )}
 
-          <Popover>
-            <PopoverTrigger>
-              <Avatar ml={4} src={session?.user?.image as string} />
-            </PopoverTrigger>
-            <PopoverContent>
-              <PopoverArrow />
-              <PopoverHeader>
-                <Text fontWeight="bold">{session?.user?.name}</Text>
-              </PopoverHeader>
-              <PopoverCloseButton />
-              <PopoverBody>
-                <Button
-                  colorScheme="twitter"
-                  onClick={() => router.push(`/profile/${session?.user?.id}`)}
-                >
-                  My Profile
-                </Button>
-              </PopoverBody>
-            </PopoverContent>
-          </Popover>
+          {session && (
+            <Popover>
+              <PopoverTrigger>
+                <Avatar ml={4} src={session?.user?.image as string} />
+              </PopoverTrigger>
+              <PopoverContent>
+                <PopoverArrow />
+                <PopoverHeader>
+                  <Text fontWeight="bold">{session?.user?.name}</Text>
+                </PopoverHeader>
+                <PopoverCloseButton />
+                <PopoverBody>
+                  <Button
+                    colorScheme="twitter"
+                    onClick={() => router.push(`/profile/${session?.user?.id}`)}
+                  >
+                    My Profile
+                  </Button>
+                </PopoverBody>
+              </PopoverContent>
+            </Popover>
+          )}
         </Box>
       </Flex>
     </Box>
