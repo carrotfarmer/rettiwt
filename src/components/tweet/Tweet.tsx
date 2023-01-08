@@ -79,7 +79,7 @@ export const Tweet: React.FC<TweetProps> = ({
       shadow="md"
       borderWidth="1px"
       width="xl"
-      height="40"
+      height="11.5rem"
       borderRadius="2xl"
       cursor="pointer"
     >

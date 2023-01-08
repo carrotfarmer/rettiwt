@@ -15,6 +15,10 @@ export const tweetRouter = router({
         likes: 0,
       } as Tweet;
 
+      if (input.msg.length > 100) {
+        throw new Error("touch grass when");
+      }
+
       return await ctx.prisma.tweet.create({
         data: {
           ...newTweet,

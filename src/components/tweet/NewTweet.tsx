@@ -10,7 +10,9 @@ import {
   ModalHeader,
   ModalOverlay,
   Textarea,
+  Text,
   useDisclosure,
+  useToast,
 } from "@chakra-ui/react";
 import type { Tweet, User } from "@prisma/client";
 import React from "react";
@@ -40,6 +42,8 @@ export const NewTweet: React.FC<NewTweetProps> = ({ setTweets }) => {
     },
   });
 
+  const alert = useToast();
+
   return (
     <>
       <Box>
@@ -61,16 +65,29 @@ export const NewTweet: React.FC<NewTweetProps> = ({ setTweets }) => {
                   ref={initialRef}
                   placeholder="what's happening?"
                   onChange={(e) => setMessage(e.target.value)}
+                  isInvalid={message.length > 100}
                 />
               </FormControl>
+              <Box color="gray.200" pt="2">
+                <Text fontSize="xs">Chars: ({message.length}/100)</Text>
+              </Box>
             </ModalBody>
 
             <ModalFooter>
               <Button
                 colorScheme="twitter"
                 onClick={() => {
-                  addTweet({ msg: message });
-                  onClose();
+                  if (message.length > 100) {
+                    alert({
+                      title: "touch grass",
+                      description: "tweet must be less than 100 characters",
+                      status: "error",
+                      duration: 5000,
+                    });
+                  } else {
+                    addTweet({ msg: message });
+                    onClose();
+                  }
                 }}
               >
                 post tweet
