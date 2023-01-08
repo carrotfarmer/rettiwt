@@ -20,7 +20,11 @@ export const Feed = () => {
   } = trpc.tweet.getTweets.useQuery();
 
   if (isFetching && isLoading) {
-    return <Spinner />;
+    return (
+      <Center>
+        <Spinner />
+      </Center>
+    );
   }
 
   if (tweets.length === 0 && tweetsData) {
