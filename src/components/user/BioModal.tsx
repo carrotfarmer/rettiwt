@@ -8,6 +8,7 @@ import {
   ModalFooter,
   Button,
   Textarea,
+  useToast,
 } from "@chakra-ui/react";
 import React from "react";
 import { trpc } from "../../utils/trpc";
@@ -28,6 +29,8 @@ export const BioModal: React.FC<TweetModalProps> = ({
 
   const [bio, setBioState] = React.useState<string>("");
 
+  const alert = useToast();
+
   return (
     <Modal isOpen={isOpen} onClose={onClose}>
       <ModalOverlay />
@@ -38,18 +41,29 @@ export const BioModal: React.FC<TweetModalProps> = ({
           <Textarea
             placeholder="internet no-lifer."
             onChange={(e) => setBioState(e.target.value)}
+            isInvalid={bio.length > 100}
           />
         </ModalBody>
 
         <ModalFooter>
           <Button
             onClick={() => {
-              setBio({ bio });
-              onClose();
+              if (bio.length > 100) {
+                alert({
+                  title: "Bio too long",
+                  description: "Your bio must be less than 100 characters.",
+                  status: "error",
+                  duration: 5000,
+                });
+              } else {
+                setBio({ bio });
+                onClose();
 
-              // reload page
-              window.location.reload();
+                // reload page
+                window.location.reload();
+              }
             }}
+            colorScheme="twitter"
           >
             Save
           </Button>

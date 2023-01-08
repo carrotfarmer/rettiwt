@@ -28,6 +28,10 @@ export const authRouter = router({
       })
     )
     .mutation(async ({ ctx, input }) => {
+      if (input.bio.length > 100) {
+        throw new Error("bio is too long");
+      }
+
       return await ctx.prisma.user.update({
         where: {
           id: ctx.session.user.id,

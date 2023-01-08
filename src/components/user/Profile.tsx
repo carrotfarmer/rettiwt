@@ -1,3 +1,4 @@
+import { EditIcon } from "@chakra-ui/icons";
 import {
   Center,
   Spinner,
@@ -7,8 +8,8 @@ import {
   Heading,
   Box,
   Text,
-  Button,
   useDisclosure,
+  IconButton,
 } from "@chakra-ui/react";
 import type { Tweet as ITweet, User } from "@prisma/client";
 import type { Session } from "next-auth";
@@ -84,34 +85,33 @@ export const Profile: React.FC<ProfileProps> = ({ userId, session }) => {
               </HStack>
               <Box pt="5">
                 <Center>
-                  {user?.bio === null && session?.user?.id === user?.id && (
-                    <HStack>
-                      <Text color="gray.400">
-                        You haven&apos;t added a bio yet.
-                      </Text>
-                      <Button size="xs" colorScheme="twitter" onClick={onOpen}>
-                        add bio
-                      </Button>
-                    </HStack>
-                  )}
+                  {(user?.bio === null || user?.bio === "") &&
+                    session?.user?.id === user?.id && (
+                      <HStack>
+                        <Text color="gray.400">
+                          You haven&apos;t added a bio yet.
+                        </Text>
+                      </HStack>
+                    )}
 
-                  {user?.bio === null && session?.user?.id !== user?.id && (
-                    <Text color="gray.400">
-                      {user?.name} hasn&apos;t added a bio yet.
-                    </Text>
-                  )}
+                  {(user?.bio === null || user?.bio === "") &&
+                    session?.user?.id !== user?.id && (
+                      <Text color="gray.400">
+                        {user?.name} hasn&apos;t added a bio yet.
+                      </Text>
+                    )}
 
                   {user?.bio !== null && (
                     <HStack>
                       <Text color="gray.400">{user?.bio}</Text>
                       {user?.bio !== null && session?.user?.id === user?.id && (
-                        <Button
+                        <IconButton
                           size="xs"
-                          colorScheme="twitter"
                           onClick={onOpen}
-                        >
-                          edit bio
-                        </Button>
+                          icon={<EditIcon />}
+                          colorScheme="twitter"
+                          aria-label="edit bio"
+                        />
                       )}
                     </HStack>
                   )}
