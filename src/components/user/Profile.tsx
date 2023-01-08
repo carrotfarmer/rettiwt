@@ -7,12 +7,15 @@ import {
   Heading,
   Box,
   Text,
+  Button,
+  useDisclosure,
 } from "@chakra-ui/react";
 import type { Tweet as ITweet, User } from "@prisma/client";
 import type { Session } from "next-auth";
 import React from "react";
 import { trpc } from "../../utils/trpc";
 import { Tweet } from "../tweet/Tweet";
+import { BioModal } from "./BioModal";
 
 interface ProfileProps {
   userId: string;
@@ -36,6 +39,8 @@ export const Profile: React.FC<ProfileProps> = ({ userId, session }) => {
       userId: userId as string,
     });
 
+  const { isOpen, onClose, onOpen } = useDisclosure();
+
   if (isLoading || isUserLoading) {
     return (
       <Center pt="10">
@@ -50,6 +55,8 @@ export const Profile: React.FC<ProfileProps> = ({ userId, session }) => {
 
   return (
     <div>
+      <BioModal isOpen={isOpen} onClose={onClose} onOpen={onOpen} />
+
       <Box p="20">
         <Box
           display="flex"
@@ -77,13 +84,37 @@ export const Profile: React.FC<ProfileProps> = ({ userId, session }) => {
               </HStack>
               <Box pt="5">
                 <Center>
-                  <Text>
-                    {user?.bio === null && session?.user?.id === user?.id && (
+                  {user?.bio === null && session?.user?.id === user?.id && (
+                    <HStack>
                       <Text color="gray.400">
                         You haven&apos;t added a bio yet.
                       </Text>
-                    )}
-                  </Text>
+                      <Button size="xs" colorScheme="twitter" onClick={onOpen}>
+                        add bio
+                      </Button>
+                    </HStack>
+                  )}
+
+                  {user?.bio === null && session?.user?.id !== user?.id && (
+                    <Text color="gray.400">
+                      {user?.name} hasn&apos;t added a bio yet.
+                    </Text>
+                  )}
+
+                  {user?.bio !== null && (
+                    <HStack>
+                      <Text color="gray.400">{user?.bio}</Text>
+                      {user?.bio !== null && session?.user?.id === user?.id && (
+                        <Button
+                          size="xs"
+                          colorScheme="twitter"
+                          onClick={onOpen}
+                        >
+                          edit bio
+                        </Button>
+                      )}
+                    </HStack>
+                  )}
                 </Center>
               </Box>
             </Box>

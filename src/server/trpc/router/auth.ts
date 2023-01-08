@@ -20,4 +20,21 @@ export const authRouter = router({
         },
       });
     }),
+
+  setBio: protectedProcedure
+    .input(
+      z.object({
+        bio: z.string(),
+      })
+    )
+    .mutation(async ({ ctx, input }) => {
+      return await ctx.prisma.user.update({
+        where: {
+          id: ctx.session.user.id,
+        },
+        data: {
+          bio: input.bio,
+        },
+      });
+    }),
 });
