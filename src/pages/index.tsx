@@ -15,7 +15,7 @@ const Home: NextPage = () => {
       <Head>
         <title>rettiwt</title>
         <meta name="description" content="ultra-mid twitter" />
-        <link rel="icon" href="/favicon.ico" />
+        <link rel="icon" href="/favicon-trans.png" />
       </Head>
       <main>
         <Navbar />
