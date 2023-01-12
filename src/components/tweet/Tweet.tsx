@@ -13,6 +13,7 @@ import { motion } from "framer-motion";
 import { trpc } from "../../utils/trpc";
 import { useSession } from "next-auth/react";
 import { TweetModal } from "./TweetModal";
+import { useRouter } from "next/router";
 
 interface TweetProps {
   tweet: ITweet;
@@ -34,6 +35,8 @@ export const Tweet: React.FC<TweetProps> = ({
   likedBy,
   setTweets,
 }) => {
+  const router = useRouter();
+
   const { mutate: likeTweet } = trpc.tweet.likeTweet.useMutation({
     onSuccess: (data) => {
       setTweets((prev) => {
@@ -83,7 +86,7 @@ export const Tweet: React.FC<TweetProps> = ({
       borderRadius="2xl"
       cursor="pointer"
     >
-      <Box onClick={onOpen}>
+      <Box>
         <TweetModal
           onClose={onClose}
           onOpen={onOpen}
@@ -93,7 +96,11 @@ export const Tweet: React.FC<TweetProps> = ({
           tweet={tweet}
         />
         <Box>
-          <Text>
+          <Text
+            onClick={() => {
+              router.push(`/profile/${author.id}`);
+            }}
+          >
             <HStack>
               <Avatar src={author.image as string} size="sm" />
               <Text fontWeight="bold">{author.name}</Text>
@@ -104,7 +111,7 @@ export const Tweet: React.FC<TweetProps> = ({
               </Text>
             </HStack>
           </Text>
-          <Box pt="2.5">
+          <Box pt="2.5" onClick={onOpen}>
             <Text>{tweet.message}</Text>
           </Box>
         </Box>

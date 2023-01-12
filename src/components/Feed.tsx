@@ -21,7 +21,7 @@ export const Feed = () => {
 
   if (isFetching && isLoading) {
     return (
-      <Center>
+      <Center pt="10">
         <Spinner />
       </Center>
     );
