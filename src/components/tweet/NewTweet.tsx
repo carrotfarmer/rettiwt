@@ -83,6 +83,15 @@ export const NewTweet: React.FC<NewTweetProps> = ({ setTweets }) => {
                       description: "tweet must be less than 100 characters",
                       status: "error",
                       duration: 5000,
+                      isClosable: true,
+                    });
+                  } else if (message.length === 0) {
+                    alert({
+                      title: "bruh what",
+                      description: "tweet must be more than 0 characters",
+                      status: "error",
+                      duration: 5000,
+                      isClosable: true,
                     });
                   } else {
                     addTweet({ msg: message });

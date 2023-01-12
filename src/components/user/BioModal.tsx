@@ -54,6 +54,14 @@ export const BioModal: React.FC<TweetModalProps> = ({
                   description: "Your bio must be less than 100 characters.",
                   status: "error",
                   duration: 5000,
+                  isClosable: true,
+                });
+              } else if (bio.length === 0) {
+                alert({
+                  title: "🕵️",
+                  description: "Your bio must be at least 1 character long.",
+                  status: "error",
+                  duration: 5000,
                 });
               } else {
                 setBio({ bio });
