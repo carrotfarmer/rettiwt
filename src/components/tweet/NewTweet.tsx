@@ -95,6 +95,7 @@ export const NewTweet: React.FC<NewTweetProps> = ({ setTweets }) => {
                     });
                   } else {
                     addTweet({ msg: message });
+                    setMessage("");
                     onClose();
                   }
                 }}
