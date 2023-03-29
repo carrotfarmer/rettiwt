@@ -1,13 +1,6 @@
 import React from "react";
 import type { Tweet as ITweet, User as IUser } from "@prisma/client";
-import {
-  Box,
-  HStack,
-  Icon,
-  Text,
-  Avatar,
-  useDisclosure,
-} from "@chakra-ui/react";
+import { Box, HStack, Icon, Text, Avatar, useDisclosure } from "@chakra-ui/react";
 import { BsHeart, BsTrash } from "react-icons/bs";
 import { motion } from "framer-motion";
 import { trpc } from "../../utils/trpc";
@@ -29,12 +22,7 @@ interface TweetProps {
   >;
 }
 
-export const Tweet: React.FC<TweetProps> = ({
-  tweet,
-  author,
-  likedBy,
-  setTweets,
-}) => {
+export const Tweet: React.FC<TweetProps> = ({ tweet, author, likedBy, setTweets }) => {
   const router = useRouter();
 
   const { mutate: likeTweet } = trpc.tweet.likeTweet.useMutation({
