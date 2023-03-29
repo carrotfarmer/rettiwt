@@ -1,4 +1,4 @@
-import { protectedProcedure, router } from "../trpc";
+import { protectedProcedure, publicProcedure, router } from "../trpc";
 import z from "zod";
 import type { Tweet } from "@prisma/client";
 
@@ -99,6 +99,24 @@ export const tweetRouter = router({
       },
     });
   }),
+
+  getTweet: publicProcedure
+    .input(
+      z.object({
+        tweetId: z.string(),
+      })
+    )
+    .query(async ({ ctx, input }) => {
+      return await ctx.prisma.tweet.findUnique({
+        where: {
+          id: input.tweetId,
+        },
+        include: {
+          likedBy: true,
+          author: true,
+        },
+      });
+    }),
 
   deleteTweet: protectedProcedure
     .input(

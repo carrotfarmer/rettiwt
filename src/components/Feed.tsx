@@ -49,6 +49,7 @@ export const Feed = () => {
                   author={tweet.author}
                   setTweets={setTweets}
                   likedBy={tweet.likedBy}
+                  isRenderedOnPage={false}
                 />
               ))}
           </VStack>

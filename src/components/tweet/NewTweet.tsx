@@ -96,18 +96,19 @@ export const NewTweet: React.FC<NewTweetProps> = ({ setTweets }) => {
                   } else {
                     addTweet({ msg: message });
                     setMessage("");
+                    alert({
+                      title: "tweet posted",
+                      status: "success",
+                      duration: 5000,
+                      isClosable: true,
+                    });
                     onClose();
                   }
                 }}
               >
                 post tweet
               </Button>
-              <Button
-                colorScheme="twitter"
-                variant="ghost"
-                mr={3}
-                onClick={onClose}
-              >
+              <Button colorScheme="twitter" variant="ghost" mr={3} onClick={onClose}>
                 close
               </Button>
             </ModalFooter>

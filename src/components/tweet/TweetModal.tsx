@@ -35,7 +35,6 @@ interface TweetModalProps {
 export const TweetModal: React.FC<TweetModalProps> = ({
   isOpen,
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  onOpen,
   onClose,
   likedBy,
   setTweets,
@@ -71,12 +70,12 @@ export const TweetModal: React.FC<TweetModalProps> = ({
         <ModalCloseButton />
         <ModalBody>
           <Text>Liked By:</Text>
-          {likedBy.map((user) => (
+          {likedBy.length > 0 ? likedBy.map((user) => (
             <HStack key={user.id} pt="2">
               <Avatar size="sm" src={user.image as string} />
               <Text fontWeight="bold">{user.name}</Text>
             </HStack>
-          ))}
+          )) : <b>NO ONE'S LIKED YOUR STUPID TWEET LMAO</b>}
         </ModalBody>
 
         <ModalFooter>
@@ -111,3 +110,4 @@ export const TweetModal: React.FC<TweetModalProps> = ({
     </Modal>
   );
 };
+
