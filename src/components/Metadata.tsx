@@ -12,7 +12,14 @@ export const Metadata: React.FC<MetadataProps> = ({ title, description }) => {
       <Head>
         <title>{title}</title>
         <meta name="description" content={description} key="desc" />
+
+        {/* og stuff */}
+        <meta property="og:title" content={`${title} - rettiwt`} />
+        <meta property="og:description" content={description} />
+
+        {/* TODO: OG Image */}
       </Head>
     </div>
   );
 };
+
