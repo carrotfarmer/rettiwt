@@ -12,6 +12,7 @@ import {
   IconButton,
 } from "@chakra-ui/react";
 import { BsHeart, BsTrash, BsArrowsAngleExpand } from "react-icons/bs";
+import { FiShare } from "react-icons/fi";
 import { motion } from "framer-motion";
 import { trpc } from "../../utils/trpc";
 import { useSession } from "next-auth/react";
@@ -103,22 +104,40 @@ export const Tweet: React.FC<TweetProps> = ({
             tweet={tweet}
           />
           <Box>
-            <Text
-              onClick={() => {
-                router.push(`/profile/${author.id}`);
-              }}
-            >
-              <HStack>
+            <HStack>
+              <React.Fragment>
                 <Avatar src={author.image as string} size="sm" />
-                <Text fontWeight="bold">{author.name}</Text>
-                <Text color="gray.400">
-                  {/* eslint-disable-next-line @typescript-eslint/ban-ts-comment */}
-                  {/* @ts-ignore */}
-                  {tweet.createdAt.toLocaleDateString("en-US", options)}
+                <Text fontWeight="bold" onClick={() => router.push(`/profile/${tweet.authorId}`)}>
+                  {author.name}
                 </Text>
+              </React.Fragment>
+              <Text color="gray.400">
+                {/* eslint-disable-next-line @typescript-eslint/ban-ts-comment */}
+                {/* @ts-ignore */}
+                {tweet.createdAt.toLocaleDateString("en-US", options)}
+              </Text>
+              <Spacer />
+              <HStack>
+                <IconButton
+                  as={FiShare}
+                  aria-label="get tweet link"
+                  p="7px"
+                  width="8"
+                  height="8"
+                  onClick={async () => {
+                    await navigator.clipboard.writeText(
+                      `${window.location.origin}/tweet/${tweet.id}`
+                    );
+                    toast({
+                      title: "copied tweet link to clipboard",
+                      status: "success",
+                      duration: 5000,
+                      isClosable: true,
+                    });
+                  }}
+                />
                 {!isRenderedOnPage && (
                   <>
-                    <Spacer />
                     <IconButton
                       as={BsArrowsAngleExpand}
                       aria-label="expand tweet"
@@ -130,7 +149,7 @@ export const Tweet: React.FC<TweetProps> = ({
                   </>
                 )}
               </HStack>
-            </Text>
+            </HStack>
             <Box pt="2.5" onClick={onOpen}>
               <Text>{tweet.message}</Text>
             </Box>
