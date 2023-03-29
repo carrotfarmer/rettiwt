@@ -126,6 +126,7 @@ export const Profile: React.FC<ProfileProps> = ({ userId, session }) => {
                     setTweets={setTweets}
                     likedBy={tweet.likedBy}
                     author={tweet.author}
+                    isRenderedOnPage={false}
                   />
                 </Box>
               ))}
