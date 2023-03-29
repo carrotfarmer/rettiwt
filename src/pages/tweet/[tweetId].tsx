@@ -1,14 +1,19 @@
 import { Box, Center, Spinner, HStack, Avatar, Text, Heading, VStack } from "@chakra-ui/react";
-import { User } from "@prisma/client";
+
 import type { NextPage } from "next";
-import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
+
 import React from "react";
+
+import type { User } from "@prisma/client";
+import type { Tweet as ITweet } from "@prisma/client";
+
+import { useSession } from "next-auth/react";
+import { trpc } from "../../utils/trpc";
+
 import { Metadata } from "../../components/Metadata";
 import { Navbar } from "../../components/nav/Navbar";
 import { Tweet } from "../../components/tweet/Tweet";
-import { Tweet as ITweet } from "@prisma/client";
-import { trpc } from "../../utils/trpc";
 
 const TweetPage: NextPage = () => {
   const router = useRouter();

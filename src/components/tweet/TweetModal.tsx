@@ -75,7 +75,7 @@ export const TweetModal: React.FC<TweetModalProps> = ({
               <Avatar size="sm" src={user.image as string} />
               <Text fontWeight="bold">{user.name}</Text>
             </HStack>
-          )) : <b>NO ONE'S LIKED YOUR STUPID TWEET LMAO</b>}
+          )) : <b>NO ONE&apos;S LIKED YOUR STUPID TWEET LMAO</b>}
         </ModalBody>
 
         <ModalFooter>
