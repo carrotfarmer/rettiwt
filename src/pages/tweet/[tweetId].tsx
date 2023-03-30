@@ -1,6 +1,6 @@
 import { Box, Center, Spinner, HStack, Avatar, Text, Heading, VStack } from "@chakra-ui/react";
 
-import type { NextPage } from "next";
+import type { GetServerSideProps, NextPage } from "next";
 import { useRouter } from "next/router";
 
 import React from "react";
@@ -14,6 +14,7 @@ import { trpc } from "../../utils/trpc";
 import { Metadata } from "../../components/Metadata";
 import { Navbar } from "../../components/nav/Navbar";
 import { Tweet } from "../../components/tweet/Tweet";
+import { getTweetMetadata } from "../../utils/getTweetMetadata";
 
 const TweetPage: NextPage = () => {
   const router = useRouter();
@@ -57,7 +58,7 @@ const TweetPage: NextPage = () => {
 
   return (
     <div>
-      <Metadata title={`tweet by ${tweet?.author.name}`} description={tweet?.message as string} />
+      {/* <Metadata title={`tweet by ${tweet?.author.name}`} description={tweet?.message as string} /> */}
       <link rel="icon" href="/favicon-trans.png" />
 
       <Navbar />
@@ -106,5 +107,38 @@ const TweetPage: NextPage = () => {
   );
 };
 
-export default TweetPage;
+export const getServerSideProps: GetServerSideProps = async (context) => {
+  const id = context?.params?.tweetId as string;
 
+  const { title, description } = await getTweetMetadata(id)
+
+  return {
+    props: {
+      openGraphData: [
+        {
+          property: "og:url",
+          content: ``,
+          key: "ogurl",
+        },
+
+        {
+          property: "og:title",
+          content: {title},
+          key: "ogtitle",
+        },
+        {
+          property: "og:description",
+          content: {description},
+          key: "ogdesc",
+        },
+        {
+          property: "og:type",
+          content: "website",
+          key: "website",
+        },
+      ],
+    },
+  };
+};
+
+export default TweetPage;
