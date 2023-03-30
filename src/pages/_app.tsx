@@ -19,6 +19,7 @@ const MyApp: AppType<{ session: Session | null; metaTags: MetaTags }> = ({
       <Head>
         {metaTags &&
           Object.entries(metaTags).map((entry) => (
+            // @eslint-ignore
             <meta property={entry[0]} content={entry[1] as string | undefined} />
           ))}
       </Head>
