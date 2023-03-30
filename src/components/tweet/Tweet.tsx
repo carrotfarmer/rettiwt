@@ -128,7 +128,7 @@ export const Tweet: React.FC<TweetProps> = ({
                   height="8"
                   onClick={async () => {
                     await navigator.clipboard.writeText(
-                      `${window.location.origin}/tweet/${tweet.id}`
+                      `${window.location.origin}/tweet/${tweet.id}#`
                     );
                     toast({
                       title: "copied tweet link to clipboard",
