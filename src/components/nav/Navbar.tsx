@@ -17,9 +17,12 @@ import {
 import { useSession, signOut, signIn } from "next-auth/react";
 import Link from "next/link";
 import router from "next/router";
+import { useRef } from "react";
 
 export const Navbar = () => {
   const { data: session } = useSession();
+
+  const initialFocusRef = useRef(null)
 
   return (
     <Box>
@@ -41,7 +44,7 @@ export const Navbar = () => {
           )}
 
           {session && (
-            <Popover>
+            <Popover initialFocusRef={initialFocusRef}>
               <PopoverTrigger>
                 <Avatar ml={4} src={session?.user?.image as string} />
               </PopoverTrigger>
@@ -55,6 +58,7 @@ export const Navbar = () => {
                   <Button
                     colorScheme="twitter"
                     onClick={() => router.push(`/profile/${session?.user?.id}`)}
+                    ref={initialFocusRef}
                   >
                     My Profile
                   </Button>
