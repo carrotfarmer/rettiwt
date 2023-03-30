@@ -6,7 +6,6 @@ import { ChakraProvider } from "@chakra-ui/react";
 
 import { trpc } from "../utils/trpc";
 import theme from "../theme";
-import { Metadata } from "../components/Metadata";
 import Head from "next/head";
 import type { MetaTags } from "../types/MetaTags";
 
@@ -23,10 +22,6 @@ const MyApp: AppType<{ session: Session | null; metaTags: MetaTags }> = ({
           ))}
       </Head>
       <ChakraProvider theme={theme}>
-        <Metadata
-          title="rettiwt"
-          description="ultra mid twitter. but at least elon's not here for now."
-        />
         <Component {...pageProps} />
       </ChakraProvider>
     </SessionProvider>
