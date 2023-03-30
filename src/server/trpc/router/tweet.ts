@@ -147,6 +147,9 @@ export const tweetRouter = router({
           likedBy: true,
           author: true,
         },
+        orderBy: {
+          createdAt: "desc",
+        },
       });
     }),
 });
