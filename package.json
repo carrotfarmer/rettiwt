@@ -22,7 +22,6 @@
     "@trpc/react-query": "^10.0.0",
     "@trpc/server": "^10.0.0",
     "framer-motion": "^6",
-    "json5": "1.0.2",
     "next": "13.0.2",
     "next-auth": "^4.20.1",
     "next-seo": "^5.15.0",
