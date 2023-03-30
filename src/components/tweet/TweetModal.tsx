@@ -81,7 +81,8 @@ export const TweetModal: React.FC<TweetModalProps> = ({
         <ModalFooter>
           {likedBy.find((user) => user.id === session?.user?.id) ? (
             <Button
-              colorScheme="twitter"
+              colorScheme="red"
+              variant="outline"
               mr={3}
               onClick={() => {
                 dislikeTweet({ tweetId: tweet.id });
@@ -93,6 +94,7 @@ export const TweetModal: React.FC<TweetModalProps> = ({
           ) : (
             <Button
               colorScheme="twitter"
+              variant="outline"
               mr={3}
               onClick={() => {
                 likeTweet({ tweetId: tweet.id });

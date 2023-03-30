@@ -120,6 +120,8 @@ export const Tweet: React.FC<TweetProps> = ({
               <HStack>
                 <IconButton
                   as={FiShare}
+                  variant="outline"
+                  colorScheme="green"
                   aria-label="get tweet link"
                   p="7px"
                   width="8"

@@ -13,6 +13,7 @@ import {
   Text,
   useDisclosure,
   useToast,
+  Flex,
 } from "@chakra-ui/react";
 import type { Tweet, User } from "@prisma/client";
 import React from "react";
@@ -47,7 +48,28 @@ export const NewTweet: React.FC<NewTweetProps> = ({ setTweets }) => {
   return (
     <>
       <Box>
-        <Button onClick={onOpen}>new tweet</Button>
+        <Flex justifyContent="center" alignItems="center">
+          <Button
+            flex={1}
+            px={4}
+            fontSize={"sm"}
+            rounded={"xl"}
+            bg={"blue.400"}
+            color={"white"}
+            boxShadow={
+              "0px 1px 25px -5px rgb(66 153 225 / 48%), 0 10px 10px -5px rgb(66 153 225 / 43%)"
+            }
+            _hover={{
+              bg: "blue.500",
+            }}
+            _focus={{
+              bg: "blue.500",
+            }}
+            onClick={onOpen}
+          >
+            new tweet
+          </Button>
+        </Flex>
 
         <Modal
           isOpen={isOpen}
