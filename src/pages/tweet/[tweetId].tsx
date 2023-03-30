@@ -110,33 +110,18 @@ const TweetPage: NextPage = () => {
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const id = context?.params?.tweetId as string;
 
-  const { title, description } = await getTweetMetadata(id)
+  const { title, description } = await getTweetMetadata(id);
+
+  const metaTags = {
+    "og:title": title,
+    "og:description": description,
+    "og:url": `https://rettiwtt.vercel.app/tweet/${id}`,
+  };
 
   return {
     props: {
-      openGraphData: [
-        {
-          property: "og:url",
-          content: ``,
-          key: "ogurl",
-        },
-
-        {
-          property: "og:title",
-          content: {title},
-          key: "ogtitle",
-        },
-        {
-          property: "og:description",
-          content: {description},
-          key: "ogdesc",
-        },
-        {
-          property: "og:type",
-          content: "website",
-          key: "website",
-        },
-      ],
+      event,
+      metaTags,
     },
   };
 };
