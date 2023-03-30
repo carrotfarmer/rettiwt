@@ -58,8 +58,7 @@ const TweetPage: NextPage = () => {
 
   return (
     <div>
-      {/* <Metadata title={`tweet by ${tweet?.author.name}`} description={tweet?.message as string} /> */}
-      <link rel="icon" href="/favicon-trans.png" />
+      <Metadata title={`tweet by ${tweet?.author.name}`} description={tweet?.message as string} />
 
       <Navbar />
       {session ? (

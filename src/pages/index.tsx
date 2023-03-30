@@ -6,17 +6,17 @@ import { Box, Button, Center, Text } from "@chakra-ui/react";
 
 import { Feed } from "../components/Feed";
 import { Navbar } from "../components/nav/Navbar";
+import { Metadata } from "../components/Metadata";
 
 const Home: NextPage = () => {
   const { data: sessionData } = useSession();
 
   return (
     <>
-      <Head>
-        <title>rettiwt</title>
-        <meta name="description" content="ultra-mid twitter" />
-        <link rel="icon" href="/favicon-trans.png" />
-      </Head>
+      <Metadata
+        title="rettiwt"
+        description="ultra mid twitter. but at least elon's not here for now."
+      />
       <main>
         <Navbar />
         <Box>
