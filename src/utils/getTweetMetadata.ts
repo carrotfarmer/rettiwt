@@ -1,5 +1,5 @@
 import { PrismaClient } from "@prisma/client";
-import { TweetMetadata } from "../types/TweetMetadata";
+import type { TweetMetadata } from "../types/TweetMetadata";
 
 export const getTweetMetadata = async (tweetId: string): Promise<TweetMetadata> => {
   const prisma = new PrismaClient();

@@ -8,7 +8,7 @@ import { trpc } from "../utils/trpc";
 import theme from "../theme";
 import { Metadata } from "../components/Metadata";
 import Head from "next/head";
-import { MetaTags } from "../types/MetaTags";
+import type { MetaTags } from "../types/MetaTags";
 
 const MyApp: AppType<{ session: Session | null; metaTags: MetaTags }> = ({
   Component,
@@ -19,7 +19,6 @@ const MyApp: AppType<{ session: Session | null; metaTags: MetaTags }> = ({
       <Head>
         {metaTags &&
           Object.entries(metaTags).map((entry) => (
-            // @eslint-ignore
             <meta property={entry[0]} content={entry[1] as string | undefined} />
           ))}
       </Head>
