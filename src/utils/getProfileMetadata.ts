@@ -9,8 +9,8 @@ export const getProfileMetadata = async (userId: string): Promise<ProfileMetadat
       id: userId,
     },
     include: {
-      tweets: true
-    }
+      tweets: true,
+    },
   });
 
   return {
@@ -18,4 +18,3 @@ export const getProfileMetadata = async (userId: string): Promise<ProfileMetadat
     description: `${user?.name} - ${user?.tweets.length} tweets`,
   };
 };
-

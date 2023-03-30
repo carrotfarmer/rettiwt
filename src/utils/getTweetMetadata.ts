@@ -19,4 +19,3 @@ export const getTweetMetadata = async (tweetId: string): Promise<TweetMetadata> 
     description: tweet?.message as string,
   };
 };
-
