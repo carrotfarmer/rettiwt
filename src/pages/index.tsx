@@ -41,34 +41,17 @@ const Home: NextPage = () => {
 };
 
 export const getServerSideProps: GetServerSideProps = async (_) => {
+  const metaTags = {
+    "og:title": "rettiwtt",
+    "og:description": "ultra mid twitter. but at least elon's not here for now.",
+    "og:url": `https://rettiwtt.vercel.app/`,
+  };
+
   return {
     props: {
-      openGraphData: [
-        {
-          property: "og:url",
-          content: ``,
-          key: "ogurl",
-        },
-
-        {
-          property: "og:title",
-          content: "rettiwtt",
-          key: "ogtitle",
-        },
-        {
-          property: "og:description",
-          content: "ultra mid twitter. but at least elon's not here for now.",
-          key: "ogdesc",
-        },
-        {
-          property: "og:type",
-          content: "website",
-          key: "website",
-        },
-      ],
+      metaTags,
     },
   };
 };
 
 export default Home;
-
