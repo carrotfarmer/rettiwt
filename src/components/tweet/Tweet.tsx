@@ -1,5 +1,5 @@
 import React from "react";
-import type { Tweet as ITweet, User as IUser } from "@prisma/client";
+import { useRouter } from "next/router";
 import {
   Box,
   HStack,
@@ -11,13 +11,16 @@ import {
   Spacer,
   IconButton,
 } from "@chakra-ui/react";
+
+import type { Tweet as ITweet, User as IUser } from "@prisma/client";
+import { trpc } from "../../utils/trpc";
+import { useSession } from "next-auth/react";
+
 import { BsHeart, BsTrash, BsArrowsAngleExpand } from "react-icons/bs";
 import { FiShare } from "react-icons/fi";
 import { motion } from "framer-motion";
-import { trpc } from "../../utils/trpc";
-import { useSession } from "next-auth/react";
+
 import { TweetModal } from "./TweetModal";
-import { useRouter } from "next/router";
 
 interface TweetProps {
   tweet: ITweet;
@@ -111,11 +114,9 @@ export const Tweet: React.FC<TweetProps> = ({
                   {author.name}
                 </Text>
               </React.Fragment>
-              <Text color="gray.400">
-                {/* eslint-disable-next-line @typescript-eslint/ban-ts-comment */}
-                {/* @ts-ignore */}
-                {tweet.createdAt.toLocaleDateString("en-US", options)}
-              </Text>
+              {/* eslint-disable-next-line @typescript-eslint/ban-ts-comment */}
+              {/* @ts-ignore */}
+              <Text color="gray.400">{tweet.createdAt.toLocaleDateString("en-US", options)}</Text>
               <Spacer />
               <HStack>
                 <IconButton
@@ -159,7 +160,7 @@ export const Tweet: React.FC<TweetProps> = ({
         <Box pt="10">
           <HStack spacing="-44">
             <Box boxSize="3xs">
-              <motion.div whileHover={{ scale: 1.01 }} whileTap={{ scaleY: 0.9 }}>
+              <motion.button whileHover={{ scale: 1.05 }} whileTap={{ scaleY: 0.95 }}>
                 <Box cursor="pointer">
                   {likedBy.find((user) => user.id === session?.user?.id) ? (
                     <HStack onClick={() => dislikeTweet({ tweetId: tweet.id })}>
@@ -173,7 +174,7 @@ export const Tweet: React.FC<TweetProps> = ({
                     </HStack>
                   )}
                 </Box>
-              </motion.div>
+              </motion.button>
             </Box>
             <Box boxSize="3xs">
               <motion.div whileHover={{ scale: 1.01 }} whileTap={{ scaleY: 0.9 }}>
