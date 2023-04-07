@@ -139,16 +139,15 @@ export const Tweet: React.FC<TweetProps> = ({
                   }}
                 />
                 {!isRenderedOnPage && (
-                  <>
+                  <Box onClick={() => router.push(`/tweet/${tweet.id}`)}>
                     <IconButton
                       as={BsArrowsAngleExpand}
                       aria-label="expand tweet"
                       p="7px"
                       width="8"
                       height="8"
-                      onClick={() => router.push(`/tweet/${tweet.id}`)}
                     />
-                  </>
+                  </Box>
                 )}
               </HStack>
             </HStack>
@@ -204,4 +203,3 @@ export const Tweet: React.FC<TweetProps> = ({
     </>
   );
 };
-
