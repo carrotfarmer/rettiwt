@@ -15,9 +15,12 @@ import {
   useToast,
   Flex,
 } from "@chakra-ui/react";
-import type { Tweet, User } from "@prisma/client";
 import React from "react";
+
+import type { Tweet, User } from "@prisma/client";
 import { trpc } from "../../utils/trpc";
+
+import { motion } from "framer-motion";
 
 interface NewTweetProps {
   setTweets: React.Dispatch<
@@ -49,26 +52,35 @@ export const NewTweet: React.FC<NewTweetProps> = ({ setTweets }) => {
     <>
       <Box>
         <Flex justifyContent="center" alignItems="center">
-          <Button
-            flex={1}
-            px={4}
-            fontSize={"sm"}
-            rounded={"xl"}
-            bg={"blue.400"}
-            color={"white"}
-            boxShadow={
-              "0px 1px 25px -5px rgb(66 153 225 / 48%), 0 10px 10px -5px rgb(66 153 225 / 43%)"
-            }
-            _hover={{
-              bg: "blue.500",
+          <motion.button
+            whileTap={{
+              scale: 0.95,
             }}
-            _focus={{
-              bg: "blue.500",
+            whileHover={{
+              scale: 1.05
             }}
-            onClick={onOpen}
           >
-            new tweet
-          </Button>
+            <Button
+              flex={1}
+              px={4}
+              fontSize={"sm"}
+              rounded={"xl"}
+              bg={"blue.500"}
+              color={"white"}
+              boxShadow={
+                "0px 1px 25px -5px rgb(66 153 225 / 48%), 0 10px 10px -5px rgb(69 159 235 / 43%)"
+              }
+              _hover={{
+                bg: "blue.600",
+              }}
+              _focus={{
+                bg: "blue.600",
+              }}
+              onClick={onOpen}
+            >
+              new tweet
+            </Button>
+          </motion.button>
         </Flex>
 
         <Modal
