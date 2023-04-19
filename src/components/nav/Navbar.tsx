@@ -59,7 +59,7 @@ export const Navbar = () => {
                     colorScheme="twitter"
                     onClick={() => router.push(`/profile/${session?.user?.id}`)}
                     ref={initialFocusRef}
-                  >
+                 >
                     My Profile
                   </Button>
                 </PopoverBody>
