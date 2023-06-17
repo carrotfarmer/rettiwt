@@ -155,7 +155,7 @@ export const Tweet: React.FC<TweetProps> = ({
               </HStack>
             </HStack>
             <Box pt="2.5" onClick={onOpen}>
-              <Text overflowX="auto">
+              <Text overflowX="auto" whiteSpace="pre-wrap">
                 <Markdown>{tweet.message}</Markdown>
               </Text>
             </Box>
