@@ -20,12 +20,8 @@ import { BsHeart, BsTrash, BsArrowsAngleExpand } from "react-icons/bs";
 import { FiShare } from "react-icons/fi";
 import { motion } from "framer-motion";
 
-import { ReactMarkdown } from "react-markdown/lib/react-markdown";
-import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
-import { oneDark } from "react-syntax-highlighter/dist/cjs/styles/prism";
-
 import { TweetModal } from "./TweetModal";
-import remarkGfm from "remark-gfm";
+import { Markdown } from "../Markdown";
 
 interface TweetProps {
   tweet: ITweet;
@@ -160,33 +156,7 @@ export const Tweet: React.FC<TweetProps> = ({
             </HStack>
             <Box pt="2.5" onClick={onOpen}>
               <Text overflowX="auto">
-                <ReactMarkdown
-                  remarkPlugins={[remarkGfm]}
-                  components={{
-                    code({ node, inline, className, children, ...props }) {
-                      const match = /language-(\w+)/.exec(className || "");
-
-                      return !inline && match ? (
-                        <SyntaxHighlighter
-                          // eslint-disable-next-line
-                          // @ts-ignore
-                          style={oneDark}
-                          PreTag="div"
-                          language={match[1]}
-                          // eslint-disable-next-line
-                          children={String(children).replace(/\n$/, "")}
-                          {...props}
-                        />
-                      ) : (
-                        <code className={className ? className : ""} {...props}>
-                          {children}
-                        </code>
-                      );
-                    },
-                  }}
-                >
-                  {tweet.message}
-                </ReactMarkdown>
+                <Markdown>{tweet.message}</Markdown>
               </Text>
             </Box>
           </Box>
