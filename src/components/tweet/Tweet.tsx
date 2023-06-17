@@ -22,7 +22,7 @@ import { motion } from "framer-motion";
 
 import { ReactMarkdown } from "react-markdown/lib/react-markdown";
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
-import { materialDark } from "react-syntax-highlighter/dist/cjs/styles/prism";
+import { oneDark } from "react-syntax-highlighter/dist/cjs/styles/prism";
 
 import { TweetModal } from "./TweetModal";
 import remarkGfm from "remark-gfm";
@@ -170,7 +170,7 @@ export const Tweet: React.FC<TweetProps> = ({
                         <SyntaxHighlighter
                           // eslint-disable-next-line
                           // @ts-ignore
-                          style={materialDark}
+                          style={oneDark}
                           PreTag="div"
                           language={match[1]}
                           // eslint-disable-next-line
