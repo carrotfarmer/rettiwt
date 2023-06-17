@@ -22,6 +22,7 @@ import { motion } from "framer-motion";
 
 import { ReactMarkdown } from "react-markdown/lib/react-markdown";
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
+import { materialDark } from "react-syntax-highlighter/dist/cjs/styles/prism";
 
 import { TweetModal } from "./TweetModal";
 import remarkGfm from "remark-gfm";
@@ -159,7 +160,31 @@ export const Tweet: React.FC<TweetProps> = ({
             </HStack>
             <Box pt="2.5" onClick={onOpen}>
               <Text overflowX="auto">
-                <ReactMarkdown remarkPlugins={[remarkGfm]}>
+                <ReactMarkdown
+                  remarkPlugins={[remarkGfm]}
+                  components={{
+                    code({ node, inline, className, children, ...props }) {
+                      const match = /language-(\w+)/.exec(className || "");
+
+                      return !inline && match ? (
+                        <SyntaxHighlighter
+                          // eslint-disable-next-line
+                          // @ts-ignore
+                          style={materialDark}
+                          PreTag="div"
+                          language={match[1]}
+                          // eslint-disable-next-line
+                          children={String(children).replace(/\n$/, "")}
+                          {...props}
+                        />
+                      ) : (
+                        <code className={className ? className : ""} {...props}>
+                          {children}
+                        </code>
+                      );
+                    },
+                  }}
+                >
                   {tweet.message}
                 </ReactMarkdown>
               </Text>
