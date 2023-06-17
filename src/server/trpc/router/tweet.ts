@@ -35,6 +35,36 @@ export const tweetRouter = router({
       });
     }),
 
+  // infiniteTweets: protectedProcedure
+  //   .input(
+  //     z.object({
+  //       limit: z.number().min(1).nullish(),
+  //       cursor: z.string().nullish(),
+  //     })
+  //   )
+  //   .query(async ({ ctx, input }) => {
+  //     const limit = input.limit ?? 10;
+  //     const { cursor } = input;
+
+  //     const tweets = await ctx.prisma.tweet.findMany({
+  //       take: limit + 1,
+  //       cursor: cursor ? { myCursor: cursor } : undefined,
+  //       orderBy: {
+  //         myCursor: "asc",
+  //       },
+  //     });
+
+  //     let nextCursor: typeof cursor | undefined = undefined;
+  //     if (tweets.length > limit) {
+  //       const nextItem = tweets.pop();
+  //       nextCursor = nextItem!.myCursor;
+  //     }
+  //     return {
+  //       tweets,
+  //       nextCursor,
+  //     };
+  //   }),
+
   likeTweet: protectedProcedure
     .input(
       z.object({

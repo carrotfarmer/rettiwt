@@ -4,6 +4,7 @@ import { Textarea, type TextareaProps } from "@chakra-ui/react";
 import ResizeTextarea from "react-textarea-autosize";
 import React from "react";
 
+// eslint-disable-next-line
 export const AutoResizeTextarea = React.forwardRef<
   HTMLTextAreaElement,
   TextareaProps
