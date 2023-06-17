@@ -9,11 +9,12 @@ import {
   ModalFooter,
   ModalHeader,
   ModalOverlay,
-  Textarea,
   Text,
   useDisclosure,
   useToast,
   Flex,
+  FormErrorMessage,
+  useMergeRefs,
 } from "@chakra-ui/react";
 import React from "react";
 
@@ -21,6 +22,11 @@ import type { Tweet, User } from "@prisma/client";
 import { trpc } from "../../utils/trpc";
 
 import { motion } from "framer-motion";
+
+import { z } from "zod";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { AutoResizeTextarea } from "../AutoResizeTextarea";
 
 interface NewTweetProps {
   setTweets: React.Dispatch<
@@ -33,12 +39,36 @@ interface NewTweetProps {
   >;
 }
 
+const formSchema = z
+  .object({
+    tweetContent: z
+      .string()
+      .min(1, { message: "bruh what - tweet should at least have 1 char" })
+      .max(500, { message: "touch grass - tweet should be less than 500 chars" }),
+  })
+  .required();
+
+type FormData = z.infer<typeof formSchema>;
+
 export const NewTweet: React.FC<NewTweetProps> = ({ setTweets }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const initialRef = React.useRef(null);
   const finalRef = React.useRef(null);
 
-  const [message, setMessage] = React.useState("");
+  const {
+    register,
+    handleSubmit,
+    watch,
+    reset,
+    formState: { errors, isSubmitting },
+  } = useForm<FormData>({
+    resolver: zodResolver(formSchema),
+    defaultValues: {
+      tweetContent: "what's happening?"
+    }
+  });
+
+  const tweetContentState = watch("tweetContent");
 
   const { mutate: addTweet } = trpc.tweet.createTweet.useMutation({
     onSuccess: (data) => {
@@ -47,6 +77,19 @@ export const NewTweet: React.FC<NewTweetProps> = ({ setTweets }) => {
   });
 
   const alert = useToast();
+
+  const onSubmit = (data: FormData) => {
+    console.log(data);
+    addTweet({ msg: data.tweetContent });
+    alert({
+      title: "tweet posted",
+      status: "success",
+      duration: 5000,
+      isClosable: true,
+    });
+    onClose();
+    reset();
+  };
 
   return (
     <>
@@ -57,7 +100,7 @@ export const NewTweet: React.FC<NewTweetProps> = ({ setTweets }) => {
               scale: 0.95,
             }}
             whileHover={{
-              scale: 1.05
+              scale: 1.05,
             }}
           >
             <Button
@@ -93,59 +136,36 @@ export const NewTweet: React.FC<NewTweetProps> = ({ setTweets }) => {
           <ModalContent>
             <ModalHeader>new tweet</ModalHeader>
             <ModalCloseButton />
-            <ModalBody>
-              <FormControl>
-                <Textarea
-                  ref={initialRef}
-                  placeholder="what's happening?"
-                  onChange={(e) => setMessage(e.target.value)}
-                  isInvalid={message.length > 100}
-                />
-              </FormControl>
-              <Box color="gray.200" pt="2">
-                <Text fontSize="xs">Chars: ({message.length}/100)</Text>
-              </Box>
-            </ModalBody>
+            <form onSubmit={handleSubmit(onSubmit)}>
+              <ModalBody>
+                <FormControl isInvalid={Boolean(errors.tweetContent)}>
+                  <AutoResizeTextarea
+                    {...register("tweetContent")}
+                    ref={useMergeRefs(initialRef, register("tweetContent").ref)}
+                    placeholder="what's happening?"
+                    minH="32"
+                  />
 
-            <ModalFooter>
-              <Button
-                colorScheme="twitter"
-                onClick={() => {
-                  if (message.length > 100) {
-                    alert({
-                      title: "touch grass",
-                      description: "tweet must be less than 100 characters",
-                      status: "error",
-                      duration: 5000,
-                      isClosable: true,
-                    });
-                  } else if (message.length === 0) {
-                    alert({
-                      title: "bruh what",
-                      description: "tweet must be more than 0 characters",
-                      status: "error",
-                      duration: 5000,
-                      isClosable: true,
-                    });
-                  } else {
-                    addTweet({ msg: message });
-                    setMessage("");
-                    alert({
-                      title: "tweet posted",
-                      status: "success",
-                      duration: 5000,
-                      isClosable: true,
-                    });
-                    onClose();
-                  }
-                }}
-              >
-                post tweet
-              </Button>
-              <Button colorScheme="twitter" variant="ghost" mr={3} onClick={onClose}>
-                close
-              </Button>
-            </ModalFooter>
+                  <FormErrorMessage>
+                    {errors.tweetContent && errors.tweetContent.message?.toString()}
+                  </FormErrorMessage>
+                </FormControl>
+                <Box color="gray.200" pt="2">
+                  {tweetContentState.length > 450 && (
+                    <Text fontSize="xs">Chars left: ({500 - tweetContentState.length})</Text>
+                  )}
+                </Box>
+              </ModalBody>
+
+              <ModalFooter>
+                <Button colorScheme="twitter" type="submit" isLoading={isSubmitting}>
+                  post tweet
+                </Button>
+                <Button colorScheme="twitter" variant="ghost" mr={3} onClick={onClose}>
+                  close
+                </Button>
+              </ModalFooter>
+            </form>
           </ModalContent>
         </Modal>
       </Box>

@@ -16,7 +16,7 @@ export const tweetRouter = router({
         likes: 0,
       } as Tweet;
 
-      if (input.msg.length > 100) {
+      if (input.msg.length > 500) {
         throw new TRPCError({
           message: "touch grass when",
           code: "BAD_REQUEST",
