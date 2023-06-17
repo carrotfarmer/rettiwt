@@ -24,6 +24,7 @@ import { ReactMarkdown } from "react-markdown/lib/react-markdown";
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 
 import { TweetModal } from "./TweetModal";
+import remarkGfm from "remark-gfm";
 
 interface TweetProps {
   tweet: ITweet;
@@ -158,7 +159,7 @@ export const Tweet: React.FC<TweetProps> = ({
             </HStack>
             <Box pt="2.5" onClick={onOpen}>
               <Text overflowX="auto">
-                <ReactMarkdown>
+                <ReactMarkdown remarkPlugins={[remarkGfm]}>
                   {tweet.message}
                 </ReactMarkdown>
               </Text>
