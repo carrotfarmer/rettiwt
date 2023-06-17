@@ -20,6 +20,9 @@ import { BsHeart, BsTrash, BsArrowsAngleExpand } from "react-icons/bs";
 import { FiShare } from "react-icons/fi";
 import { motion } from "framer-motion";
 
+import { ReactMarkdown } from "react-markdown/lib/react-markdown";
+import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
+
 import { TweetModal } from "./TweetModal";
 
 interface TweetProps {
@@ -89,11 +92,12 @@ export const Tweet: React.FC<TweetProps> = ({
   return (
     <>
       <Box
-        p="5"
+        px="5"
+        pt="5"
         shadow="md"
         borderWidth="1px"
         width="xl"
-        height="11.5rem"
+        h="auto"
         borderRadius="2xl"
         cursor="pointer"
       >
@@ -108,12 +112,12 @@ export const Tweet: React.FC<TweetProps> = ({
           />
           <Box>
             <HStack>
-              <React.Fragment>
+              <>
                 <Avatar src={author.image as string} size="sm" />
                 <Text fontWeight="bold" onClick={() => router.push(`/profile/${tweet.authorId}`)}>
                   {author.name}
                 </Text>
-              </React.Fragment>
+              </>
               {/* eslint-disable-next-line @typescript-eslint/ban-ts-comment */}
               {/* @ts-ignore */}
               <Text color="gray.400">{tweet.createdAt.toLocaleDateString("en-US", options)}</Text>
@@ -153,14 +157,18 @@ export const Tweet: React.FC<TweetProps> = ({
               </HStack>
             </HStack>
             <Box pt="2.5" onClick={onOpen}>
-              <Text>{tweet.message}</Text>
+              <Text overflowX="auto">
+                <ReactMarkdown>
+                  {tweet.message}
+                </ReactMarkdown>
+              </Text>
             </Box>
           </Box>
         </Box>
         <Box pt="10">
-          <HStack spacing="-44">
-            <Box boxSize="3xs">
-              <motion.button whileHover={{ scale: 1.05 }} whileTap={{ scaleY: 0.95 }}>
+          <HStack spacing="-44" pb="2">
+            <Box w="3xs" height="auto">
+              <motion.button whileHover={{ scale: 1.01 }} whileTap={{ scaleY: 1.5 }}>
                 <Box cursor="pointer">
                   {likedBy.find((user) => user.id === session?.user?.id) ? (
                     <HStack onClick={() => dislikeTweet({ tweetId: tweet.id })}>
@@ -176,7 +184,8 @@ export const Tweet: React.FC<TweetProps> = ({
                 </Box>
               </motion.button>
             </Box>
-            <Box boxSize="3xs">
+
+            <Box w="3xs" height="auto">
               <motion.div whileHover={{ scale: 1.01 }} whileTap={{ scaleY: 0.9 }}>
                 <Box cursor="pointer">
                   {author.id === session?.user?.id && (

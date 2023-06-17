@@ -1,4 +1,5 @@
 import { protectedProcedure, publicProcedure, router } from "../trpc";
+import { TRPCError } from "@trpc/server";
 import z from "zod";
 import type { Tweet } from "@prisma/client";
 
@@ -16,7 +17,10 @@ export const tweetRouter = router({
       } as Tweet;
 
       if (input.msg.length > 100) {
-        throw new Error("touch grass when");
+        throw new TRPCError({
+          message: "touch grass when",
+          code: "BAD_REQUEST",
+        });
       }
 
       return await ctx.prisma.tweet.create({
