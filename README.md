@@ -9,7 +9,10 @@ created with the T3 Stack.
 
 ## features
 
-see, its basically twitter without all the useless features.
+~~see, its basically twitter without all the useless features.~~
+
+- markdown w/ syntax highlighting
+- img uploads (coming soon)
 
 ## why
 
